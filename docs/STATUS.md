@@ -1,20 +1,25 @@
 # Status
 
-The pilot is being built from `docs/PLAN.md`. Phases 1 and 2 of 6 are done.
+The pilot is being built from `docs/PLAN.md`. Phases 1 to 3 of 6 are done.
 
 ## What's built
 
 - `backend/`: FastAPI on SQLite.
   - The database is `backend/undercover.db`, or the file named in `UNDERCOVER_DB`. The backend creates it on its first start and seeds it from `data/`.
-  - Read operations: `list_claims`, `get_claim`, `get_policy`, `get_customer`, `list_handlers`, `get_policy_wording`, and `health`.
+  - Read operations: `list_claims`, `get_claim`, `get_policy`, `get_customer`, `list_handlers`, `get_policy_wording`, `get_instructions`, and `health`.
   - Work on a claim: `start_claim`, `add_step`, `list_steps`, `decide_claim`, `pay_claim` and `sign_off_claim`.
   - A claim moves from `waiting` to `in_progress`, then to `decided`, or to `waiting_for_sign_off` when the agent approves a payout over $1,000. `pay_claim` refuses such a payout with 403 until a handler signs off, and the sign-off makes the payment.
-- `agent/`: still the skeleton, with the entry point `run(claim_id, thread_id)` and one tool that calls the health route.
+  - `backend/instructions.md` holds the agent's instructions. They're read only and served by `get_instructions`.
+- `agent/`: the UnderCover Agent, built with LangChain's `create_agent` on OpenRouter.
+  - `run(claim_id, thread_id)` starts the claim, takes its instructions from the backend, and works the claim with six tools: `get_claim`, `get_policy`, `get_customer`, `get_policy_wording`, `decide_claim` and `pay_claim`.
+  - It records each model message, tool call and tool result as a step.
+  - It uses `openai/gpt-6-luna` at low reasoning effort, or the model in `MODEL_NAME`.
 - `dashboard/`: still the skeleton, with one page that shows whether the backend is up.
 - `e2e/`: one test of that page.
 
 ## How to run it
 
 - `npm run dev` starts the backend on port 8000 and the dashboard on port 5173.
+- With the backend running, `uv run -m agent` works through every waiting claim in the queue, and `uv run -m agent CLM-1001 CLM-1002` works just those claims.
 - `npm run reset` seeds the database again from `data/`, putting all 25 claims back in the queue.
 - `npm run check` runs every check.

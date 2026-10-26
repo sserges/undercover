@@ -5,6 +5,7 @@ import sqlite3
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, HTTPException
@@ -16,6 +17,7 @@ from backend.models import (
     Customer,
     DecisionIn,
     Handler,
+    Instructions,
     PaymentIn,
     Policy,
     PolicyWording,
@@ -25,6 +27,7 @@ from backend.models import (
 )
 
 LIMIT: float = db.COMPANY["payout_approval_limit"]
+INSTRUCTIONS = Path(__file__).with_name("instructions.md")
 
 CLAIM_ROWS = """SELECT c.status, c.data, d.decision, d.payout,
     json_extract(u.data, '$.name') AS customer_name
@@ -151,6 +154,12 @@ def get_policy_wording() -> PolicyWording:
     return PolicyWording(
         version=db.COMPANY["policy_wording_version"], text=db.POLICY_WORDING
     )
+
+
+@app.get("/api/instructions", operation_id="get_instructions")
+def get_instructions() -> Instructions:
+    """Get the UnderCover Agent's instructions."""
+    return Instructions(text=INSTRUCTIONS.read_text(encoding="utf-8"))
 
 
 @app.post("/api/claims/{claim_id}/start", operation_id="start_claim")

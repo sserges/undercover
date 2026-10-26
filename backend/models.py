@@ -174,3 +174,7 @@ class Handler(BaseModel):
 class PolicyWording(BaseModel):
     version: str
     text: str
+
+
+class Instructions(BaseModel):
+    text: str

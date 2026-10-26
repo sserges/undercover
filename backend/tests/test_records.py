@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from fastapi.testclient import TestClient
 
 from backend import db
@@ -83,6 +85,14 @@ def test_get_policy_wording(client):
     wording = client.get("/api/policy-wording").json()
     assert wording["version"] == "2026.1"
     assert wording["text"].startswith("# UnderCover Travel Insurance: Policy Wording")
+
+
+def test_get_instructions(client):
+    instructions = client.get("/api/instructions").json()
+    assert instructions["text"] == Path("backend/instructions.md").read_text(
+        encoding="utf-8"
+    )
+    assert instructions["text"].startswith("# The UnderCover Agent")
 
 
 def test_unknown_records_are_not_found(client):

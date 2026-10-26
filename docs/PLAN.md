@@ -199,15 +199,15 @@ As `SPEC.md` asks, the pilot leaves out the claims manual, sign-in, real payment
 
 **Why this approach:** one tool per API operation means the agent can reach exactly what the API allows and no more. The instructions come from the backend, so the dashboard shows the same text the agent runs on. The runner records the steps from the stream, so the dashboard sees everything the agent does, as it happens.
 
-- [ ] `GET /api/instructions` returns the text of `backend/instructions.md`
-- [ ] Stub-model test: a scripted run on CLM-1001 calls `get_claim`, `get_policy`, `get_customer`, `get_policy_wording`, `decide_claim` (approve $420.00) and `pay_claim`. Afterwards the claim is `decided` and paid, and `list_steps` shows each tool call and result in order, with the run's thread id
-- [ ] Stub-model test: a scripted approval over $1,000 followed by `pay_claim` gives the model the backend's sign-off refusal without raising an error. The claim stays `waiting_for_sign_off` with no payment
-- [ ] Stub-model test: the system prompt the model receives is the text served by `get_instructions`
-- [ ] Command-line test: with no ids, the command runs every waiting claim and skips the others. With ids, it runs just those
-- [ ] The model test still passes: `openai/gpt-6-luna` by default, and `MODEL_NAME` overrides it
-- [ ] A search of `agent/` for `data/` finds nothing, so the agent reads only through the API
-- [ ] Live, with `npm run dev` running: `uv run -m agent CLM-1001` on the real model finishes with a reply. `GET /api/claims/CLM-1001` then shows a decision with a payout, reasons in two or three sentences and a policy section, and `list_steps` shows the run. This costs well under a cent. `npm run reset` afterwards
-- [ ] `npm run check:python` passes
+- [x] `GET /api/instructions` returns the text of `backend/instructions.md`
+- [x] Stub-model test: a scripted run on CLM-1001 calls `get_claim`, `get_policy`, `get_customer`, `get_policy_wording`, `decide_claim` (approve $420.00) and `pay_claim`. Afterwards the claim is `decided` and paid, and `list_steps` shows each tool call and result in order, with the run's thread id
+- [x] Stub-model test: a scripted approval over $1,000 followed by `pay_claim` gives the model the backend's sign-off refusal without raising an error. The claim stays `waiting_for_sign_off` with no payment
+- [x] Stub-model test: the system prompt the model receives is the text served by `get_instructions`
+- [x] Command-line test: with no ids, the command runs every waiting claim and skips the others. With ids, it runs just those
+- [x] The model test still passes: `openai/gpt-6-luna` by default, and `MODEL_NAME` overrides it
+- [x] A search of `agent/` for `data/` finds nothing, so the agent reads only through the API
+- [x] Live, with `npm run dev` running: `uv run -m agent CLM-1001` on the real model finishes with a reply. `GET /api/claims/CLM-1001` then shows a decision with a payout, reasons in two or three sentences and a policy section, and `list_steps` shows the run. This costs well under a cent. `npm run reset` afterwards
+- [x] `npm run check:python` passes
 
 ## Phase 4: The dashboard and the queue
 
