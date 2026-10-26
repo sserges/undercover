@@ -1,20 +1,21 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, screen } from "@testing-library/react";
 import { afterEach, expect, it, vi } from "vitest";
-import { App } from "./App";
+import { renderAt, stubApi } from "./testing";
 
 afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
 });
 
-it("shows that the backend is up", async () => {
-  vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("{}")));
-  render(<App />);
-  expect(await screen.findByText("Backend: up")).toBeDefined();
+it("links to the queue and the instructions", () => {
+  stubApi({ "GET /api/claims": [] });
+  renderAt("/");
+  const nav = screen.getByRole("navigation", { name: "Main" });
+  expect(nav.textContent).toBe("QueueInstructions");
+  expect(screen.getByRole("link", { name: "Queue" }).className).toBe("active");
 });
 
-it("shows that the backend is down", async () => {
-  vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("offline")));
-  render(<App />);
-  expect(await screen.findByText("Backend: down")).toBeDefined();
+it("says when a page doesn't exist", () => {
+  renderAt("/nowhere");
+  expect(screen.getByText("Page not found.")).toBeDefined();
 });

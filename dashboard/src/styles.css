@@ -1,0 +1,268 @@
+:root {
+  --sea-green: #06d6a0;
+  --marigold: #ffc145;
+  --coral: #f78c6b;
+  --cerulean: #118ab2;
+  --raspberry: #ef476f;
+  --midnight: #073b4c;
+  --sea-mist: #cdd8db;
+
+  --page: #f0f4f5;
+  --panel: #ffffff;
+  --panel-alt: #f6f9f9;
+  --ink: var(--midnight);
+  --muted: #4d6f7a;
+  --green-ink: #03805f;
+  --marigold-ink: #8a5a00;
+
+  --sans: "Instrument Sans", system-ui, sans-serif;
+  --serif: "Instrument Serif", Georgia, serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #04232e;
+    --panel: #000000;
+    --panel-alt: #0b1d24;
+    --ink: var(--sea-mist);
+    --muted: #8fa8b0;
+    --green-ink: #5ff0c8;
+    --marigold-ink: #ffd47e;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 1.75rem;
+}
+
+h2 {
+  font-size: 1.15rem;
+}
+
+.mono {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 0.5rem;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.brand-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--green-ink);
+}
+
+.brand-tagline {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--muted);
+}
+
+.nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.nav a {
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav a:hover {
+  background: var(--panel);
+}
+
+.nav a.active {
+  background: var(--midnight);
+  color: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  .nav a.active {
+    background: var(--sea-mist);
+    color: var(--midnight);
+  }
+}
+
+.main {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 3rem;
+}
+
+.panel {
+  background: var(--panel);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+}
+
+.panel > h2 {
+  margin-bottom: 0.75rem;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+}
+
+.tile-count {
+  font-family: var(--mono);
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.tile-label {
+  font-weight: 600;
+}
+
+.status-waiting {
+  background: var(--cerulean);
+  color: #ffffff;
+}
+
+.status-in_progress {
+  background: var(--marigold);
+  color: var(--midnight);
+}
+
+.status-waiting_for_sign_off {
+  background: var(--coral);
+  color: var(--midnight);
+}
+
+.status-decided {
+  background: var(--sea-green);
+  color: var(--midnight);
+}
+
+.decision-approve {
+  background: var(--sea-green);
+  color: var(--midnight);
+}
+
+.decision-decline {
+  background: var(--coral);
+  color: var(--midnight);
+}
+
+.decision-refer {
+  background: var(--marigold);
+  color: var(--midnight);
+}
+
+.chip {
+  display: inline-block;
+  padding: 0.15rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th {
+  text-align: left;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+th,
+td {
+  padding: 0.6rem 0.75rem;
+  vertical-align: top;
+}
+
+/* The shadow covers the seams Chrome leaves between cells at fractional widths. */
+tbody tr:nth-child(odd) td {
+  background: var(--panel-alt);
+  box-shadow: 1px 0 var(--panel-alt);
+}
+
+td.number,
+th.number {
+  text-align: right;
+}
+
+.error {
+  background: var(--raspberry);
+  color: #ffffff;
+}
+
+.nowrap {
+  white-space: nowrap;
+}

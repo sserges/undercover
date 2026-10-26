@@ -222,17 +222,17 @@ As `SPEC.md` asks, the pilot leaves out the claims manual, sign-in, real payment
 
 **Why now:** the API is finished and tested, so the dashboard can be built against real responses. Moving the end-to-end tests to their own servers now keeps every later check from touching your development data.
 
-- [ ] vitest: the queue shows each claim with its status label, a link to its claim page and its amounts formatted as money, such as $1,150.00. The tiles count the claims in each status
-- [ ] e2e: the queue shows 25 claims, and the Waiting tile shows 25
-- [ ] e2e: after the test starts a claim through the API, the queue shows it as In progress without a page reload
-- [ ] `npm run e2e` passes while `npm run dev` is running, and the development database is unchanged afterwards
-- [ ] In the browser, through the Playwright MCP server, at http://localhost:5173, the queue follows `BRAND.md`:
+- [x] vitest: the queue shows each claim with its status label, a link to its claim page and its amounts formatted as money, such as $1,150.00. The tiles count the claims in each status
+- [x] e2e: the queue shows 25 claims, and the Waiting tile shows 25
+- [x] e2e: after the test starts a claim through the API, the queue shows it as In progress without a page reload
+- [x] `npm run e2e` passes while `npm run dev` is running, and the development database is unchanged afterwards
+- [x] In the browser, through the Playwright MCP server, at http://localhost:5173, the queue follows `BRAND.md`:
   - Instrument Sans for text, and JetBrains Mono for ids and amounts
   - the four status colors
   - rounded panels without outlines
   - no edge borders and no line across the top of the page
   - screenshots in light mode and in dark mode
-- [ ] `npm run check:ts` passes: ESLint, Prettier, strict tsc, and vitest with at least 80% coverage
+- [x] `npm run check:ts` passes: ESLint, Prettier, strict tsc, and vitest with at least 80% coverage
 
 ## Phase 5: The claim page, live steps, sign-off and instructions
 

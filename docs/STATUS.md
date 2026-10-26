@@ -1,6 +1,6 @@
 # Status
 
-The pilot is being built from `docs/PLAN.md`. Phases 1 to 3 of 6 are done.
+The pilot is being built from `docs/PLAN.md`. Phases 1 to 4 of 6 are done.
 
 ## What's built
 
@@ -14,8 +14,9 @@ The pilot is being built from `docs/PLAN.md`. Phases 1 to 3 of 6 are done.
   - `run(claim_id, thread_id)` starts the claim, takes its instructions from the backend, and works the claim with six tools: `get_claim`, `get_policy`, `get_customer`, `get_policy_wording`, `decide_claim` and `pay_claim`.
   - It records each model message, tool call and tool result as a step.
   - It uses `openai/gpt-6-luna` at low reasoning effort, or the model in `MODEL_NAME`.
-- `dashboard/`: still the skeleton, with one page that shows whether the backend is up.
-- `e2e/`: one test of that page.
+- `dashboard/`: React, Vite and TypeScript, with React Router, in the brand's fonts and colors, in light and dark mode.
+  - The queue (`/`): a count of the claims in each status, and a table of the claims with each one's status and decision. It refreshes every 2 seconds.
+- `e2e/`: Playwright tests of the queue. They run on their own ports (backend 8001, dashboard 5174) with a freshly seeded database in the system's temp folder, so they never touch the development data and can run while `npm run dev` is running.
 
 ## How to run it
 
