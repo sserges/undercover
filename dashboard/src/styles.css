@@ -266,3 +266,202 @@ th.number {
 .nowrap {
   white-space: nowrap;
 }
+
+h3 {
+  margin: 1.25rem 0 0.5rem;
+  font-size: 0.95rem;
+}
+
+pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.page-header {
+  display: grid;
+  gap: 0.5rem;
+  justify-items: start;
+}
+
+.page-header p {
+  margin: 0;
+}
+
+.lead {
+  font-size: 1.15rem;
+}
+
+.claim-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.claim-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .claim-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.claim-main {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.decision-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0;
+}
+
+.payout {
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
+.reasons {
+  font-size: 1.05rem;
+}
+
+.story {
+  margin: 0.75rem 0 0;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  background: var(--panel-alt);
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  line-height: 1.45;
+}
+
+.documents,
+.history,
+.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.documents li,
+.history li {
+  margin-bottom: 0.75rem;
+}
+
+.documents p {
+  margin: 0.25rem 0 0;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.35rem 1.25rem;
+  margin: 0;
+}
+
+.facts dt {
+  color: var(--muted);
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.steps {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.step {
+  padding: 0.5rem 0.75rem;
+  border-radius: 10px;
+  background: var(--panel-alt);
+  overflow-wrap: anywhere;
+}
+
+.step p {
+  margin: 0;
+}
+
+.step-tool_call code {
+  font-size: 0.85rem;
+  color: var(--green-ink);
+}
+
+.step summary {
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.step summary.refused {
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  background: var(--raspberry);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.step pre {
+  max-height: 16rem;
+  overflow: auto;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.sign-off {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  background: var(--panel-alt);
+}
+
+.sign-off p:first-child {
+  margin-top: 0;
+}
+
+select,
+button {
+  font: inherit;
+  padding: 0.4rem 0.75rem;
+  border-radius: 8px;
+}
+
+select {
+  border: 1px solid var(--muted);
+  background: var(--panel);
+  color: var(--ink);
+}
+
+button {
+  border: 0;
+  background: var(--midnight);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+@media (prefers-color-scheme: dark) {
+  button {
+    background: var(--sea-green);
+    color: var(--midnight);
+  }
+}
+
+.instructions {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+}

@@ -5,10 +5,10 @@ export interface Polled<T> {
   failed: boolean;
 }
 
-/** Load data now and again every interval, keeping the latest result. */
+/** Load data now, then again every interval if one is given. */
 export function usePolling<T>(
   load: () => Promise<T>,
-  intervalMs: number,
+  intervalMs?: number,
 ): Polled<T> {
   const [polled, setPolled] = useState<Polled<T>>({
     data: undefined,
@@ -28,7 +28,7 @@ export function usePolling<T>(
       );
     };
     refresh();
-    const timer = setInterval(refresh, intervalMs);
+    const timer = intervalMs ? setInterval(refresh, intervalMs) : undefined;
     return () => {
       active = false;
       clearInterval(timer);

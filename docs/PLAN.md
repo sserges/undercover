@@ -240,14 +240,14 @@ As `SPEC.md` asks, the pilot leaves out the claims manual, sign-in, real payment
 
 **Why this approach:** the claim page is where a handler checks the agent's work, so it puts the decision and its reasons at the top. The steps sit beside them, and the full claim, the policy and the customer's history follow underneath. The sign-off form appears only while a claim is waiting for sign-off.
 
-- [ ] vitest covers the decision panel, the steps, the sign-off form and the instructions page
-- [ ] e2e: the CLM-1001 page shows the story, 3 items, 4 documents, the Premium policy, and Maya Patel's earlier claim CLM-0412
-- [ ] e2e: the test acts as the agent through the API on a claim: it starts the claim, adds two steps, then declines with reasons and a section. The claim page shows the steps, the decision Decline, the reasons, the section and the status Decided
-- [ ] e2e: with the claim page open, a step the test adds through the API appears without a page reload
-- [ ] e2e: after an approval of $3,000.00 through the API, the page shows Waiting for sign-off and the sign-off form, and a payment through the API returns 403. Choosing Dana Whitfield and pressing "Sign off and pay" leaves the claim Decided, and the page shows $3,000.00 paid and signed off by Dana Whitfield
-- [ ] e2e: the instructions page shows the agent's instructions and has no editing control
-- [ ] In the browser, through the Playwright MCP server, the claim page follows `BRAND.md`, with screenshots in light mode and in dark mode
-- [ ] `npm run check` passes
+- [x] vitest covers the decision panel, the steps, the sign-off form and the instructions page
+- [x] e2e: the CLM-1001 page shows the story, 3 items, 4 documents, the Premium policy, and Maya Patel's earlier claim CLM-0412
+- [x] e2e: the test acts as the agent through the API on a claim: it starts the claim, adds two steps, then declines with reasons and a section. The claim page shows the steps, the decision Decline, the reasons, the section and the status Decided
+- [x] e2e: with the claim page open, a step the test adds through the API appears without a page reload
+- [x] e2e: after an approval of $3,000.00 through the API, the page shows Waiting for sign-off and the sign-off form, and a payment through the API returns 403. Choosing Dana Whitfield and pressing "Sign off and pay" leaves the claim Decided, and the page shows $3,000.00 paid and signed off by Dana Whitfield
+- [x] e2e: the instructions page shows the agent's instructions and has no editing control
+- [x] In the browser, through the Playwright MCP server, the claim page follows `BRAND.md`, with screenshots in light mode and in dark mode
+- [x] `npm run check` passes
 
 ## Phase 6: The pilot run
 

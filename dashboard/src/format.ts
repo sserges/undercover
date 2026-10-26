@@ -34,8 +34,17 @@ export function money(amount: number): string {
   return dollars.format(amount);
 }
 
+const moment = new Intl.DateTimeFormat("en-US", {
+  dateStyle: "medium",
+  timeStyle: "short",
+});
+
 export function date(isoDate: string): string {
   return day.format(new Date(isoDate));
+}
+
+export function dateTime(isoDateTime: string): string {
+  return moment.format(new Date(isoDateTime));
 }
 
 /** Turn an id such as "trip_delay" into a label such as "Trip delay". */

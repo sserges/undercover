@@ -1,4 +1,6 @@
 import { Link, NavLink, Route, Routes } from "react-router";
+import { ClaimPage } from "./ClaimPage";
+import { InstructionsPage } from "./InstructionsPage";
 import { QueuePage } from "./QueuePage";
 
 export function App() {
@@ -19,6 +21,8 @@ export function App() {
       <main className="main">
         <Routes>
           <Route path="/" element={<QueuePage />} />
+          <Route path="/claims/:claimId" element={<ClaimPage />} />
+          <Route path="/instructions" element={<InstructionsPage />} />
           <Route path="*" element={<p className="panel">Page not found.</p>} />
         </Routes>
       </main>

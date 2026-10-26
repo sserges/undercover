@@ -1,6 +1,6 @@
 # Status
 
-The pilot is being built from `docs/PLAN.md`. Phases 1 to 4 of 6 are done.
+The pilot is being built from `docs/PLAN.md`. Phases 1 to 5 of 6 are done.
 
 ## What's built
 
@@ -16,7 +16,9 @@ The pilot is being built from `docs/PLAN.md`. Phases 1 to 4 of 6 are done.
   - It uses `openai/gpt-6-luna` at low reasoning effort, or the model in `MODEL_NAME`.
 - `dashboard/`: React, Vite and TypeScript, with React Router, in the brand's fonts and colors, in light and dark mode.
   - The queue (`/`): a count of the claims in each status, and a table of the claims with each one's status and decision. It refreshes every 2 seconds.
-- `e2e/`: Playwright tests of the queue. They run on their own ports (backend 8001, dashboard 5174) with a freshly seeded database in the system's temp folder, so they never touch the development data and can run while `npm run dev` is running.
+  - A claim (`/claims/CLM-1001`): the decision with its payout, reasons and policy section, the payment and the sign-off, the agent's steps as they happen, the claim in full, the policy, and the customer with their earlier claims. It refreshes every second. While a claim waits for sign-off, a handler picks their name and presses "Sign off and pay".
+  - The agent's instructions (`/instructions`), read only.
+- `e2e/`: Playwright tests of the queue, a claim page, the live steps, the sign-off and the instructions. They act as the agent through the API, and run on their own ports (backend 8001, dashboard 5174) with a freshly seeded database in the system's temp folder, so they never touch the development data and can run while `npm run dev` is running.
 
 ## How to run it
 
