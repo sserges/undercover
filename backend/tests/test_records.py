@@ -13,7 +13,7 @@ def test_startup_creates_and_seeds_the_database(tmp_path, monkeypatch):
         pass
     assert (tmp_path / "new.db").exists()
     with db.connect() as conn:
-        assert tuple(conn.execute(COUNTS).fetchone()) == (25, 50, 49, 3)
+        assert list(conn.execute(COUNTS).fetchone().values()) == [25, 50, 49, 3]
 
 
 def test_startup_keeps_existing_data(client):
@@ -45,6 +45,8 @@ def test_list_claims(client):
         "amount_claimed": 420.0,
         "submitted_on": "2026-06-24",
         "status": "waiting",
+        "decision": None,
+        "payout": None,
     }
 
 

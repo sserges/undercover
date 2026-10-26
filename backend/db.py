@@ -18,6 +18,28 @@ CREATE TABLE IF NOT EXISTS claims (
 CREATE TABLE IF NOT EXISTS policies (policy_id TEXT PRIMARY KEY, data TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS customers (customer_id TEXT PRIMARY KEY, data TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS handlers (handler_id TEXT PRIMARY KEY, data TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS decisions (
+    claim_id TEXT PRIMARY KEY,
+    decision TEXT NOT NULL,
+    payout REAL NOT NULL,
+    reasons TEXT NOT NULL,
+    policy_section TEXT NOT NULL,
+    decided_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS payments (
+    claim_id TEXT PRIMARY KEY, amount REAL NOT NULL, paid_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS sign_offs (
+    claim_id TEXT PRIMARY KEY, handler_id TEXT NOT NULL, signed_off_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS steps (
+    step_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    claim_id TEXT NOT NULL,
+    thread_id TEXT NOT NULL,
+    kind TEXT NOT NULL,
+    text TEXT NOT NULL,
+    created_at TEXT NOT NULL
+);
 """
 
 DROP = """
@@ -25,6 +47,10 @@ DROP TABLE IF EXISTS claims;
 DROP TABLE IF EXISTS policies;
 DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS handlers;
+DROP TABLE IF EXISTS decisions;
+DROP TABLE IF EXISTS payments;
+DROP TABLE IF EXISTS sign_offs;
+DROP TABLE IF EXISTS steps;
 """
 
 
@@ -43,11 +69,17 @@ def path() -> Path:
     return Path(os.getenv("UNDERCOVER_DB", ROOT / "backend" / "undercover.db"))
 
 
+def dict_row(cursor: sqlite3.Cursor, row: tuple[Any, ...]) -> dict[str, Any]:
+    return {
+        column[0]: value for column, value in zip(cursor.description, row, strict=True)
+    }
+
+
 @contextmanager
 def connect() -> Iterator[sqlite3.Connection]:
-    """Open the database, commit what the block changes, then close it."""
+    """Open the database with rows as dicts, commit the block's changes, then close."""
     conn = sqlite3.connect(path())
-    conn.row_factory = sqlite3.Row
+    conn.row_factory = dict_row
     try:
         with conn:
             yield conn
@@ -82,7 +114,7 @@ def init() -> None:
     """Create the tables, and seed them if the queue is empty."""
     with connect() as conn:
         conn.executescript(SCHEMA)
-        if conn.execute("SELECT COUNT(*) FROM claims").fetchone()[0] == 0:
+        if conn.execute("SELECT COUNT(*) AS n FROM claims").fetchone()["n"] == 0:
             seed(conn)
 
 

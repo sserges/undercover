@@ -176,17 +176,17 @@ As `SPEC.md` asks, the pilot leaves out the claims manual, sign-in, real payment
 
 **Why now, and why in the backend:** the rules in the spec, especially the $1,000 block, belong in one place that every client has to go through. If they're tested here, before an agent exists, the agent can't get around them later.
 
-- [ ] `start_claim` moves a waiting claim to `in_progress`. On an in-progress claim it clears the earlier steps. On a claim that's decided or waiting for sign-off it returns 409
-- [ ] `decide_claim` on a waiting claim (not yet started) returns 409, and deciding a claim twice returns 409
-- [ ] Decline with a $0 payout leaves the claim `decided`. Decline with a $50 payout returns 422, and approve with a $0 payout returns 422
-- [ ] Approving $420.00 leaves the claim `decided`. Paying $420.00 then returns 200 and records the payment. Paying again returns 409, and paying $400.00 returns 409
-- [ ] Approving exactly $1,000.00 leaves the claim `decided`, and paying $1,000.00 succeeds
-- [ ] Approving $3,000.00 leaves the claim `waiting_for_sign_off`. Paying $3,000.00 then returns 403, with a `detail` that says a handler must sign off, and no payment is recorded
-- [ ] Signing off that claim as HND-01 makes it `decided` and records a $3,000.00 payment with the handler and the time. Signing off as an unknown handler returns 404, and signing off a claim that isn't waiting for sign-off returns 409
-- [ ] Paying a declined claim returns 409
-- [ ] After three steps are added, `list_steps` returns them in order, each with its thread id, kind, text and time
-- [ ] On the development server, CLM-1003 goes through the API from start, to an approval of $3,000.00, to a refused payment (403), to a sign-off, and ends `decided` and paid. `npm run reset` afterwards
-- [ ] `npm run check:python` passes
+- [x] `start_claim` moves a waiting claim to `in_progress`. On an in-progress claim it clears the earlier steps. On a claim that's decided or waiting for sign-off it returns 409
+- [x] `decide_claim` on a waiting claim (not yet started) returns 409, and deciding a claim twice returns 409
+- [x] Decline with a $0 payout leaves the claim `decided`. Decline with a $50 payout returns 422, and approve with a $0 payout returns 422
+- [x] Approving $420.00 leaves the claim `decided`. Paying $420.00 then returns 200 and records the payment. Paying again returns 409, and paying $400.00 returns 409
+- [x] Approving exactly $1,000.00 leaves the claim `decided`, and paying $1,000.00 succeeds
+- [x] Approving $3,000.00 leaves the claim `waiting_for_sign_off`. Paying $3,000.00 then returns 403, with a `detail` that says a handler must sign off, and no payment is recorded
+- [x] Signing off that claim as HND-01 makes it `decided` and records a $3,000.00 payment with the handler and the time. Signing off as an unknown handler returns 404, and signing off a claim that isn't waiting for sign-off returns 409
+- [x] Paying a declined claim returns 409
+- [x] After three steps are added, `list_steps` returns them in order, each with its thread id, kind, text and time
+- [x] On the development server, CLM-1003 goes through the API from start, to an approval of $3,000.00, to a refused payment (403), to a sign-off, and ends `decided` and paid. `npm run reset` afterwards
+- [x] `npm run check:python` passes
 
 ## Phase 3: The UnderCover Agent
 

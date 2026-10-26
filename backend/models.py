@@ -1,6 +1,12 @@
 """The shapes the UnderCover API sends and receives."""
 
+from typing import Literal
+
 from pydantic import BaseModel
+
+Status = Literal["waiting", "in_progress", "waiting_for_sign_off", "decided"]
+DecisionKind = Literal["approve", "decline", "refer"]
+StepKind = Literal["message", "tool_call", "tool_result"]
 
 
 class Item(BaseModel):
@@ -13,6 +19,25 @@ class Document(BaseModel):
     name: str
     type: str
     content: str
+
+
+class Decision(BaseModel):
+    decision: DecisionKind
+    payout: float
+    reasons: str
+    policy_section: str
+    decided_at: str
+
+
+class Payment(BaseModel):
+    amount: float
+    paid_at: str
+
+
+class SignOff(BaseModel):
+    handler_id: str
+    handler_name: str
+    signed_off_at: str
 
 
 class Claim(BaseModel):
@@ -28,7 +53,10 @@ class Claim(BaseModel):
     items: list[Item]
     amount_claimed: float
     documents: list[Document]
-    status: str
+    status: Status
+    decision: Decision | None
+    payment: Payment | None
+    sign_off: SignOff | None
 
 
 class ClaimSummary(BaseModel):
@@ -38,7 +66,38 @@ class ClaimSummary(BaseModel):
     summary: str
     amount_claimed: float
     submitted_on: str
-    status: str
+    status: Status
+    decision: DecisionKind | None
+    payout: float | None
+
+
+class DecisionIn(BaseModel):
+    decision: DecisionKind
+    payout: float
+    reasons: str
+    policy_section: str
+
+
+class PaymentIn(BaseModel):
+    amount: float
+
+
+class SignOffIn(BaseModel):
+    handler_id: str
+
+
+class StepIn(BaseModel):
+    thread_id: str
+    kind: StepKind
+    text: str
+
+
+class Step(BaseModel):
+    step_id: int
+    thread_id: str
+    kind: StepKind
+    text: str
+    created_at: str
 
 
 class Plan(BaseModel):
