@@ -94,7 +94,8 @@ def test_run_reads_decides_and_pays():
     assert recorded[8]["text"] == "Covered under section 3."
     assert recorded[-1]["text"] == "Approved and paid $420.00."
     assert '"story":"My flight home from Rome' in recorded[1]["text"]
-    assert '"name":"Maya Patel"' in recorded[5]["text"]
+    results = [s["text"] for s in recorded if s["kind"] == result]
+    assert any('"name":"Maya Patel","email"' in text for text in results)
     assert {s["thread_id"] for s in recorded} == {"thread-1"}
 
 
@@ -120,7 +121,13 @@ def test_the_model_is_given_the_instructions_from_the_backend():
 
 
 def test_work_the_whole_queue(monkeypatch, capsys):
-    TestClient(app).post("/api/claims/CLM-1002/start")
+    client = TestClient(app)
+    client.post("/api/claims/CLM-1002/start")
+    client.post(
+        "/api/claims/CLM-1002/decision",
+        json={**decision(0), "decision": "decline"},
+    )
+    client.post("/api/claims/CLM-1003/start")
     ran = []
     monkeypatch.setattr(
         "agent.__main__.run", lambda claim_id, thread_id: ran.append(claim_id) or "Done"
@@ -128,6 +135,7 @@ def test_work_the_whole_queue(monkeypatch, capsys):
     work_queue([])
     assert len(ran) == 24
     assert "CLM-1002" not in ran
+    assert "CLM-1003" in ran
     assert "CLM-1001: Done" in capsys.readouterr().out
 
 
@@ -145,6 +153,7 @@ def test_model_name(monkeypatch):
     monkeypatch.delenv("MODEL_NAME", raising=False)
     assert main.model().model_name == "openai/gpt-6-luna"
     assert main.model().reasoning_effort == "low"
+    assert main.model().rate_limiter is main.RATE_LIMITER
     monkeypatch.setenv("MODEL_NAME", "openrouter/free")
     assert main.model().model_name == "openrouter/free"
     assert main.model().reasoning_effort is None

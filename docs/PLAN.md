@@ -83,7 +83,7 @@ Every operation has an `operation_id` that matches its function name, a one-line
 4. Streams the run and posts each model message, tool call and tool result to `add_step`. The runner records the steps, not the model, so the trace is complete and the model can't skip a step.
 5. Returns the agent's final reply.
 
-`uv run -m agent CLM-1001 CLM-1002` runs the agent on those claims. `uv run -m agent` with no ids works through every waiting claim in the queue, one at a time, with a new thread id for each.
+`uv run -m agent CLM-1001 CLM-1002` runs the agent on those claims. `uv run -m agent` with no ids works through every waiting claim in the queue, one at a time, with a new thread id for each. (Phase 6 extended this to claims left in progress by a run that stopped, and added a limit of 20 model requests a minute, after the first run hit OpenRouter's rate limit.)
 
 The instructions tell the agent to:
 
@@ -255,10 +255,10 @@ As `SPEC.md` asks, the pilot leaves out the claims manual, sign-in, real payment
 
 **Why a phase of its own:** this is the first time the live model, the backend's rules and the dashboard all run together, on all 25 claims. GPT-6 Luna at low effort costs about a cent for the whole queue.
 
-- [ ] After `npm run reset` and `npm run dev`, `uv run -m agent` works through the queue. Every one of the 25 claims ends Decided or Waiting for sign-off, and none is stuck In progress
-- [ ] While the agent runs, the dashboard, seen through the Playwright MCP server, shows a claim In progress with its steps appearing live. Screenshot
-- [ ] Through the API, every decided claim has a decision, reasons in two or three sentences and a policy section, and every approval has a payout
-- [ ] Every approval over $1,000 is Waiting for sign-off with no payment recorded
-- [ ] Signing off one of those claims in the dashboard leaves it Decided and paid
-- [ ] `docs/STATUS.md` describes what's built and how to run it on Windows and Mac: `npm run dev`, `uv run -m agent` and `npm run reset`
-- [ ] `npm run check` passes
+- [x] After `npm run reset` and `npm run dev`, `uv run -m agent` works through the queue. Every one of the 25 claims ends Decided or Waiting for sign-off, and none is stuck In progress
+- [x] While the agent runs, the dashboard, seen through the Playwright MCP server, shows a claim In progress with its steps appearing live. Screenshot
+- [x] Through the API, every decided claim has a decision, reasons in two or three sentences and a policy section, and every approval has a payout
+- [x] Every approval over $1,000 is Waiting for sign-off with no payment recorded
+- [x] Signing off one of those claims in the dashboard leaves it Decided and paid
+- [x] `docs/STATUS.md` describes what's built and how to run it on Windows and Mac: `npm run dev`, `uv run -m agent` and `npm run reset`
+- [x] `npm run check` passes

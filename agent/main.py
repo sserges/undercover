@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessage, BaseMessage, ToolMessage
+from langchain_core.rate_limiters import InMemoryRateLimiter
 from langchain_core.tools import tool
 from langchain_openai import ChatOpenAI
 from pydantic import SecretStr
@@ -18,6 +19,9 @@ load_dotenv(override=True)
 BACKEND_URL = "http://127.0.0.1:8000"
 OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
 DEFAULT_MODEL = "openai/gpt-6-luna"
+
+# OpenRouter allows new accounts, and everyone on free models, 20 requests a minute.
+RATE_LIMITER = InMemoryRateLimiter(requests_per_second=20 / 60)
 
 
 def backend() -> httpx.Client:
@@ -113,6 +117,7 @@ def model() -> ChatOpenAI:
         base_url=OPENROUTER_BASE_URL,
         api_key=SecretStr(os.environ["OPENROUTER_API_KEY"]),
         reasoning_effort=None if name else "low",
+        rate_limiter=RATE_LIMITER,
     )
 
 
